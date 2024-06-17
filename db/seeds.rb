@@ -22,6 +22,7 @@ if File.exist?(csv_file)
     category = Category.find_or_create_by(name: product['category'])
     Product.create(
       title: product['name'],
+      description: product['description'],
       price: product['price'],
       stock_quantity: product['stock_quantity'],
       category: category

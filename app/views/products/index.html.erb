@@ -1,12 +1,16 @@
-<h1>Products#index</h1>
+<h1>Products from CSV File</h1>
 
-<% @products.each do |product| %>
-  <div>
-    <h2><%= link_to product.title, product_path(product) %></h2>
-    <p>Category: <%= product.category.name %></p>
-    <p>Price: <%= product.price %></p>
-    <p>Stock Quantity: <%= product.stock_quantity%> </p>
-  </div>
+<p> Total available products: <%= Product.count %> </p> 
+<% @products.group_by(&:category).each do |category, products| %>
+  <h2><%= category.name %></h2>
+  <ul>
+    <% products.each do |product| %>
+      <li>
+        <%= link_to product.title, product_path(product) %>
+      </li>
+    <% end %>
+  </ul>
 <% end %>
+
 
 
