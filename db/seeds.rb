@@ -7,12 +7,28 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
-require 'faker'
+require 'csv'
 
-676.times do
-  Product.create(
-    title: Faker::Commerce.product_name,
-    price: Faker::Commerce.price(range: 0..100.0, as_string: true),
-    stock_quantity: Faker::Number.between(from: 1, to: 100)
-  )
+Product.destroy_all
+Category.destroy_all
+
+csv_file = Rails.root.join('db/products.csv')
+
+if File.exist?(csv_file)
+  csv_data = File.read(csv_file)
+  products = CSV.parse(csv_data, headers: true)
+
+  products.each do |product|
+    category = Category.find_or_create_by(name: product['category'])
+    Product.create(
+      title: product['name'],
+      price: product['price'],
+      stock_quantity: product['stock_quantity'],
+      category: category
+    )
+  end
+else
+  puts "CSV file not found"
 end
+
+

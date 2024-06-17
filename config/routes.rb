@@ -1,9 +1,7 @@
 Rails.application.routes.draw do
-  # index
-  get '/products', to: 'products#index'
-  
-  # route for show action
-  get '/products/:id', to: 'products#show'
+  root "products#index"
+
+  resources :products
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
